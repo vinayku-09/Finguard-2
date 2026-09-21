@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pandas
+numpy==1.26.4
+scikit-learn
+joblib
+xgboost
+sqlalchemy
+psycopg2-binary
+pytest
+httpx
