@@ -1,0 +1,10 @@
+name: backend
+on:
+  push: { branches: [master], paths: ["api/**", "src/**", "data/**", "Dockerfile", "requirements.txt", "render.yaml"] }
+  workflow_dispatch: {}
+jobs:
+  deploy:
+    if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
