@@ -50,8 +50,18 @@ python -m pytest tests/ -q    # 7 tests: API contract + store backends
 
 Deploy on Render with `render.yaml` (API + Postgres + static frontend). Frontend API target is set at build time via `VITE_API_URL`.
 
-## GitHub Pages (frontend)
+## Backend via GitHub Actions (Render)
 
+`.github/workflows/backend.yml` redeploys the API on every push to `api/`, `src/`, or `Dockerfile`. One-time setup (no CLI):
+
+1. Render dashboard → New → Web Service → connect the `Finguard-2` repo (`render.yaml` is auto-detected) → Create.
+2. That service → Settings → Deploy Hook → copy the URL.
+3. GitHub repo → Settings → Secrets and variables → Actions → New secret: `RENDER_DEPLOY_HOOK` = the URL.
+4. Push — the `backend` workflow fires the hook; Render rebuilds and migrates nothing (models train at first boot if missing).
+
+The API URL this gives you (e.g. `https://finguard-api.onrender.com`) is what you put in the `VITE_API_URL` variable for the Pages frontend.
+
+## GitHub Pages (frontend)
 1. Deploy the backend somewhere public first (Render + `render.yaml` works) — Pages only serves the frontend, and browsers can't reach `localhost`.
 2. Repo Settings → Pages → Source: **GitHub Actions**.
 3. Repo Settings → Secrets and variables → Actions → Variables → New: `VITE_API_URL` = your API URL (e.g. `https://finguard-api.onrender.com`).
