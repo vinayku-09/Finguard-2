@@ -50,6 +50,13 @@ python -m pytest tests/ -q    # 7 tests: API contract + store backends
 
 Deploy on Render with `render.yaml` (API + Postgres + static frontend). Frontend API target is set at build time via `VITE_API_URL`.
 
+## GitHub Pages (frontend)
+
+1. Deploy the backend somewhere public first (Render + `render.yaml` works) — Pages only serves the frontend, and browsers can't reach `localhost`.
+2. Repo Settings → Pages → Source: **GitHub Actions**.
+3. Repo Settings → Secrets and variables → Actions → Variables → New: `VITE_API_URL` = your API URL (e.g. `https://finguard-api.onrender.com`).
+4. Push — `.github/workflows/pages.yml` builds with that URL and publishes. Site: `https://vinayku-09.github.io/Finguard-2/`.
+
 ## Datasets to go beyond synthetic data
 
 - ULB Credit-Card Fraud (start here): `kaggle.com/datasets/mlg-ulb/creditcardfraud`
